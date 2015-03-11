@@ -3,11 +3,15 @@ module StoreCredit
     attr_reader :items
 
     def initialize()
-      @items = []
+      @items = {}
     end
 
     def add_item(item)
-      @items << item
+      @items[item.position] = item
+    end
+
+    def remove_item(item={})
+      item = @items.delete item[:position]
     end
   end
 end
