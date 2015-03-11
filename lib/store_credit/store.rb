@@ -1,17 +1,20 @@
 module StoreCredit
   class Store
-    attr_reader :items
-
+  
     def initialize()
-      @items = {}
+      @items = []
     end
 
     def add_item(item)
-      @items[item.position] = item
+      @items << item
     end
 
-    def remove_item(item={})
-      item = @items.delete item[:position]
+    def remove_item(item_properties={})
+      @items.delete_if { |item| item.position == item_properties[:position] }
+    end
+
+    def item_count
+      @items.count
     end
   end
 end
