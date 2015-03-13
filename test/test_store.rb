@@ -14,31 +14,62 @@ class TestStore < Test::Unit::TestCase
     @store.add_item(@item)
     assert_equal(@store.item_count, 1)
   end
-
-  def tests_first_item_hash_is_first_item_hash
+  
+  def tests_lasts_item_hash_is_nil_when_no_items_in_store
     @store = StoreCredit::Store.new
-    @item = OpenStruct.new(position: 100, price: 2000)
-    @store.add_item(@item)
-    @store = add_items_to_store(@store, 20)
-    assert_equal(@item.hash, @store.get_first_item_hash) 
+    assert_equal(nil, @store.last_item_hash)
   end
 
-  def tests_first_item_hash_is_updated_after__items_emptied
+  def tests_last_item_hash_is_updated_on_add_item
     @store = StoreCredit::Store.new
-    @item = OpenStruct.new(position: 100, price: 2000)
+    @item = OpenStruct.new(position: 1, price: 10)
     @store.add_item(@item)
-    @store = add_items_to_store(@store, 20)
-    #empty @store
-    @store.shift_item until @store.items_empty?
-    @new_item = OpenStruct.new(position: 1001, price: 2001)
-    @store.add_item(@new_item)
-    assert_equal(@new_item.hash, @store.get_first_item_hash)
+    assert_equal(@store.last_item_hash, @item.hash)
   end
 
-  def tests_can_shift_item_off_items_stack
+  def tests_last_item_hash_is_updated_after_removing_last_item
     @store = StoreCredit::Store.new
-    @store = add_items_to_store(@store, 20)
-    assert_match(/#<OpenStruct position=\d+, price=\d+>/, @store.shift_item.to_s)
+    @item = OpenStruct.new(postiion: 1, price: 10)
+    @item_2 = OpenStruct.new(postiion: 2, price: 20)
+    @store.add_item(@item)
+    @store.add_item(@item_2)
+    item = @store.remove_next_item
+    @store.restore_current_item(item)
+    @store.remove_next_item
+    assert_equal(@store.last_item_hash, @item.hash)
+  end
+
+  def tests_last_item_hash_is_set_to_nil_when_store_items_emptied
+    @store = StoreCredit::Store.new
+    add_items_to_store(@store, 20)
+    @store.remove_next_item until @store.items_empty?
+    assert_equal(nil, @store.last_item_hash)
+  end
+
+  def tests_can_remove_next_item
+    @store = StoreCredit::Store.new
+    add_items_to_store(@store, 20)
+    assert_match(/#<OpenStruct position=\d+, price=\d+>/, @store.remove_next_item.to_s)
+  end
+
+  def tests_adding_items_sorts_the_items
+    @store = StoreCredit::Store.new
+    @item_1 = OpenStruct.new(position: 1, price: 23)
+    @item_2 = OpenStruct.new(position: 2, price: 10)
+    @item_3 = OpenStruct.new(position: 3, price: 15)
+    @store.add_item(@item_1)
+    @store.add_item(@item_2)
+    @store.add_item(@item_3)
+    assert_equal(@item_2, @store.remove_next_item)
+    assert_equal(@item_3, @store.remove_next_item)
+    assert_equal(@item_1, @store.remove_next_item)
+  end
+
+  def tests_can_find_item_by_price
+    @store = StoreCredit::Store.new
+    add_items_to_store(@store, 20)
+    @item = @store.find_item_by_price(30)
+    assert_equal(3, @item.position)
   end
 
   def add_items_to_store(store, number_of_items)
