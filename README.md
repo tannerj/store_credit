@@ -4,6 +4,8 @@ Google Code Jam practice problem
 
 https://code.google.com/codejam/contest/351101/dashboard#s=p0
 
+(The following is taken directly from the above link.)
+
 ##Problem
 
 You receive a credit C at a local store and would like to buy two items. You first walk through the store 
