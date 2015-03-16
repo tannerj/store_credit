@@ -1,3 +1,7 @@
-require_relative 'store_credit/application'
 require_relative 'store_credit/account'
+require_relative 'store_credit/application'
+require_relative 'store_credit/case'
+require_relative 'store_credit/item'
+require_relative 'store_credit/input_processor'
+require_relative 'store_credit/output_processor'
 require_relative 'store_credit/store'
