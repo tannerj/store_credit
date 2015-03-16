@@ -29,16 +29,19 @@ adds up to the store credit. The lower index should be output first.
 ##Limits
 
 5 ≤ C ≤ 1000
+
 1 ≤ P ≤ 1000
 
 ###Small dataset
 
 N = 10
+
 3 ≤ I ≤ 100
 
 ###Large dataset
 
 N = 50
+
 3 ≤ I ≤ 2000
 
 ##Sample
