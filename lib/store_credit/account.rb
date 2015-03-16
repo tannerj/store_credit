@@ -9,7 +9,7 @@ module StoreCredit
       @balance = credit
     end
 
-    def deposite(amount)
+    def deposit(amount)
       @balance += amount
     end
 

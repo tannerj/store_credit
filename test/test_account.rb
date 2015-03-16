@@ -25,7 +25,7 @@ class TestCredit < Test::Unit::TestCase
 
   def tests_deposite_correctly_updates_balance
     @account = StoreCredit::Account.new(100)
-    @account.deposite(20)
+    @account.deposit(20)
     assert_equal(@account.balance, 120)
   end
 end
