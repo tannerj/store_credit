@@ -1,6 +1,5 @@
 module StoreCredit
   class Store
-    attr_reader :items   
     def initialize()
       @items = []
       @next_item_index = 0
@@ -25,7 +24,9 @@ module StoreCredit
       if @current_checked_out_item
         @items.insert(@next_item_index, @current_checked_out_item)
         @current_checked_out_item = nil
+        old_next_item_index = @next_item_index
         @next_item_index += 1
+        old_next_item_index
       else
         nil
       end
