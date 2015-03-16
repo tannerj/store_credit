@@ -1,14 +1,14 @@
 module StoreCredit
   class Case
-    attr_reader :id, :matched_items_positions
+    attr_reader :id, :matched_items
     
     def initialize(id)
       @id = id
-      @matched_items_positions = []
+      @matched_items = []
     end
 
     def add_matched_items(items)
-      @matched_items_positions = items.sort!
+      @matched_items = items.sort! { |a,b| a.position <=> b.position}
     end
   end
 end

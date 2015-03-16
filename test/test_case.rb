@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'ostruct'
 require_relative '../lib/store_credit/case'
 
 class TestCase < Test::Unit::TestCase
@@ -11,9 +12,13 @@ class TestCase < Test::Unit::TestCase
     assert_equal(@case.id, 1)
   end
 
-  def tests_can_adding_matches_sorts_them
+  def tests_adding_matches_sorts_them
     @case = StoreCredit::Case.new(1)
-    @case.add_matched_items([2,1])
-    assert_equal([1,2], @case.matched_items_positions)
+    @items = [
+      @item_1 = OpenStruct.new(position: 4, price: 25),
+      @item_2 = OpenStruct.new(position: 1, price: 100)
+    ]
+    @case.add_matched_items(@items)
+    assert_equal([@item_2, @item_1], @case.matched_items)
   end
 end
