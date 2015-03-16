@@ -32,12 +32,18 @@ module StoreCredit
       end
     end
 
-    def find_item_by_price(price)
-      @items.each do |item|
-        return item if item.price == price
-      end
-      false
-    end
+   def find_item_by_price(price)
+     min = 0
+     max = @items.length - 1
+     mid = min + ((max - min) / 2)
+     while min <= max
+       return @items[mid] if @items[mid].price == price
+       min = mid + 1 if price > @items[mid].price
+       max = mid - 1 if price < @items[mid].price
+       mid = min + ((max - min) / 2)
+     end
+     false
+   end
 
     def item_count
       @items.count
