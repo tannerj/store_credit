@@ -1,40 +1,33 @@
 module StoreCredit
   class Store
-   
-    attr_reader :last_item_hash
-
+    attr_reader :items   
     def initialize()
       @items = []
-      @last_item_hash = nil
       @next_item_index = 0
+      @current_checked_out_item = nil
     end
 
-    def add_item(item)
-      @items << item
+    def stock(items)
+      items.each { |item| @items << item }
       sort_items
-      @last_item_hash = @items.last.hash
     end
 
-    def remove_next_item
-      return nil if @items.empty? 
-      item = @items.delete_at(@next_item_index)
-      sort_items
-      if @items.last != nil
-        @last_item_hash = @items.last.hash
+    def checkout_next_item
+      return nil if @items == nil
+      if @next_item_index < @items.count
+        @current_checked_out_item = @items.delete_at(@next_item_index)
       else
-        @last_item_hash = nil
+        nil
       end
-      item
     end
 
-    def restore_current_item(item_to_restore)
-      add_item(item_to_restore)
-      @items.each.with_index do |item, index|
-        if item.hash == item_to_restore.hash
-          if (index + 1) < @items.count
-            @next_item_index += 1
-          end
-        end
+    def return_checked_out_item
+      if @current_checked_out_item
+        @items.insert(@next_item_index, @current_checked_out_item)
+        @current_checked_out_item = nil
+        @next_item_index += 1
+      else
+        nil
       end
     end
 
@@ -42,6 +35,7 @@ module StoreCredit
       @items.each do |item|
         return item if item.price == price
       end
+      false
     end
 
     def item_count
