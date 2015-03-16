@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/store_credit'
-
-StoreCredit::Application.run
+application = StoreCredit::Application.new
+application.run(ARGF)
